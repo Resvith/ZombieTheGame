@@ -24,6 +24,10 @@ public class InputController : MonoBehaviour
     private void MovementController()
     {
         Vector2 targetVelocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (movementController.isOnLadder)
+        {
+            targetVelocity = new Vector2(targetVelocity[0], 0);
+        }
         movementController.Move(targetVelocity);
     }
 

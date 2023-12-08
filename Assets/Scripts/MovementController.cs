@@ -7,6 +7,7 @@ public class MovementController : MonoBehaviour
     Rigidbody rb;
     public float targetMovingSpeed = 5f;
     public float targetJumpForce = 250f;
+    public bool isOnLadder = false;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
