@@ -19,6 +19,7 @@ public class InputController : MonoBehaviour
         MovementController();
         JumpController();
         SneakingController();
+        ClimbingController();
     }
 
     private void MovementController()
@@ -49,6 +50,29 @@ public class InputController : MonoBehaviour
         else
         {
             movementController.targetMovingSpeed = originalTargetMovingSpeed;
+        }
+    }
+
+    private void ClimbingController()
+    {
+        if (movementController.isOnLadder)
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                movementController.ClimbUp();
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                movementController.ClimbDown();
+            }
+            else if (Input.GetKey(KeyCode.Space))
+            {
+                movementController.ClimbStop();
+            }
+            else
+            {
+                movementController.ClimbWait();
+            }
         }
     }
 
