@@ -63,6 +63,16 @@ public class InputController : MonoBehaviour
             }
             else if (Input.GetKey(KeyCode.S))
             {
+                if (movementController.isGrounded)
+                {
+                    movementController.ClimbStop();
+                    Vector2 targetVelocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                    movementController.Move(targetVelocity);
+                }
+                else
+                {
+                    movementController.ClimbDown();
+                }
                 movementController.ClimbDown();
             }
             else if (Input.GetKey(KeyCode.Space))

@@ -1,18 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
     Rigidbody rb;
     public float targetMovingSpeed = 75f;
-    public float targetJumpForce = 100f;
+    public float targetJumpForce = 250f;
     public bool isOnLadder = false;
-    [SerializeField]
-    private float climbingSpeed = 90f;
+    public bool isGrounded = true;
+    public Transform characterBottom;
+
+    [SerializeField] private float climbingSpeed = 90f;
+    [SerializeField] private float groundCheckDistance = 0.1f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+    }
+    private void Update()
+    {
+        GroundChecker();
+    }
+
+    private void GroundChecker()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(characterBottom.position, Vector3.down, out hit, groundCheckDistance))
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
     }
 
     public void Jump()
@@ -37,7 +58,6 @@ public class MovementController : MonoBehaviour
     {
         rb.useGravity = false;
         rb.velocity = Vector3.up * climbingSpeed * Time.deltaTime;
-
     }
 
     public void ClimbDown()
@@ -46,16 +66,16 @@ public class MovementController : MonoBehaviour
         rb.velocity = Vector3.down * climbingSpeed * Time.deltaTime;
     }
 
+    public void ClimbStop()
+    {
+        isOnLadder = false;
+        rb.useGravity = true;
+    }
+
     public void ClimbWait()
     {
         rb.useGravity = false;
         rb.velocity = Vector3.zero;
-    }
-
-    public void ClimbStop()
-    {
-        rb.useGravity = true;
-        rb.velocity = Vector3.back * targetJumpForce * Time.deltaTime;
     }
 
 }
