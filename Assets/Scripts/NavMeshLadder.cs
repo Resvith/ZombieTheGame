@@ -9,96 +9,70 @@ public class NavMeshLadder : MonoBehaviour
     private NavMeshAgent agent;
     private Ladder[] ladders;
     private Ladder closestLadder;
-    private bool isOnLadder = false;
-    private bool isAcctualGoalReached = true;
+    private Ladder lastUsedLadder;
 
-    Queue<Vector3> subGoals = new Queue<Vector3>();
     Vector3 acctualGoal = new Vector3();
-
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         ladders = FindObjectsOfType<Ladder>();
         print(ladders.Length);
-        foreach (Ladder ladder in ladders)
-        {
-            ladder.EnemyOnLadder += EnemyClimbing;
-        }
     }
 
     void Update()
     {
-        //agent.SetDestination(player.position)
         SetGoal();
     }
 
     private void SetGoal()
     {
-        CheckIfAcctualGoalIsReached();
-        if (!isAcctualGoalReached)
+        // agent bellow player
+        if (player.transform.position.y > agent.transform.position.y)
         {
-            return;
+            closestLadder = FindNearestLadder(isPlayerBellow: false);
+            acctualGoal = FindWaypoint(isPlayerBellow: false);
         }
-        // If agent is bellow player find ladder
-        if (agent.transform.position.y + 1 < player.transform.position.y)
+        else if (player.transform.position.y < agent.transform.position.y)
         {
-            FindNearestLadder();
-            print("Searching ladders");
+            closestLadder = FindNearestLadder(isPlayerBellow: false);
+            acctualGoal = FindWaypoint(isPlayerBellow: true);
         }
-        if (subGoals is null)
+        else
         {
-            print("Player is a goal");
             acctualGoal = player.transform.position;
         }
-        else if (subGoals.Count > 0)
-        {
-            print("Setting subgoal");
-            acctualGoal = subGoals.Dequeue();
-        }
-        isAcctualGoalReached = false;
-    }
-
-    private void CheckIfAcctualGoalIsReached()
-    {
+        agent.SetDestination(acctualGoal);
+        print("Player Y:" + player.transform.position.y);
+        print("Enemy Y:" + agent.transform.position.y);
+        print("Actual Goal" + acctualGoal);
 
     }
 
-    //private void SetGoal()
-    //{
-    //    if (isLadderGoal) return;
-    //    if (agent.transform.position.y + 2 < player.transform.position.y)
-    //    {
-    //        closestLadder = FindNearestLadder();
-    //        FindWaypoint();
-    //        isLadderGoal = true;
-    //        print("Cel: drabina");
-    //    }
-    //    else
-    //    {
-    //        goal = player.position;
-    //        isLadderGoal = false;
-    //        print("Cel: Gracz");
-    //    }
-    //    print(goal);
-    //    agent.SetDestination(goal);
-    //}
 
-    private void FindWaypoint()
+    private Vector3 FindWaypoint(bool isPlayerBellow)
     {
         List<Transform> waypoints = new List<Transform>();
         foreach (Transform waypoint in closestLadder.transform)
         {
             waypoints.Add(waypoint);
         }
-        goal = waypoints[0].transform.position;
+        if (isPlayerBellow) return waypoints[0].position;
+        else return waypoints[1].position;
+        
     }
 
-    private Ladder FindNearestLadder()
+    private Ladder FindNearestLadder(bool isPlayerBellow)
     {
         float closestDistance = Mathf.Infinity;
         foreach (Ladder ladder in ladders)
         {
+            if (lastUsedLadder != null)
+            {
+                if (lastUsedLadder == ladder) continue;
+            }
+            if (isPlayerBellow && ladder.transform.position.y < player.transform.position.y) continue;
+            if (!isPlayerBellow && ladder.transform.position.y > player.transform.position.y) continue;
             float distance = Vector3.Distance(transform.position, ladder.transform.position);
             if (distance < closestDistance)
             {
@@ -106,23 +80,7 @@ public class NavMeshLadder : MonoBehaviour
                 closestDistance = distance;
             }
         }
-        print(closestLadder.transform.position);
+        lastUsedLadder = closestLadder;
         return closestLadder;
-    }
-
-    private void EnemyClimbing()
-    {
-        //agent.enabled = false;
-        isOnLadder = true;
-        print("Enemy touched ladder");
-/*        while (isLadderGoal) 
-        {
-            float x = transform.position.x;
-            float y = transform.position.y + 1;
-            float z = transform.position.z;
-            Vector3 moveVector = new Vector3(x, y, z);
-            agent.Move(moveVector);
-        }*/
-        
     }
 }
