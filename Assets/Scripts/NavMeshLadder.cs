@@ -5,15 +5,15 @@ using UnityEngine.AI;
 
 public class NavMeshLadder : MonoBehaviour
 {
-    public Transform player; // Referencja do transformacji gracza.
+    public Transform player;
     private NavMeshAgent agent;
     private Ladder[] ladders;
     private Ladder closestLadder;
-    private Vector3 goal;
-    private bool isLadderGoal;
     private bool isOnLadder = false;
-    
+    private bool isAcctualGoalReached = true;
 
+    Queue<Vector3> subGoals = new Queue<Vector3>();
+    Vector3 acctualGoal = new Vector3();
 
 
     void Start()
@@ -35,23 +35,54 @@ public class NavMeshLadder : MonoBehaviour
 
     private void SetGoal()
     {
-        if (isLadderGoal) return;
-        if (agent.transform.position.y + 2 < player.transform.position.y)
+        CheckIfAcctualGoalIsReached();
+        if (!isAcctualGoalReached)
         {
-            closestLadder = FindNearestLadder();
-            FindWaypoint();
-            isLadderGoal = true;
-            print("Cel: drabina");
+            return;
         }
-        else
+        // If agent is bellow player find ladder
+        if (agent.transform.position.y + 1 < player.transform.position.y)
         {
-            goal = player.position;
-            isLadderGoal = false;
-            print("Cel: Gracz");
+            FindNearestLadder();
+            print("Searching ladders");
         }
-        print(goal);
-        agent.SetDestination(goal);
+        if (subGoals is null)
+        {
+            print("Player is a goal");
+            acctualGoal = player.transform.position;
+        }
+        else if (subGoals.Count > 0)
+        {
+            print("Setting subgoal");
+            acctualGoal = subGoals.Dequeue();
+        }
+        isAcctualGoalReached = false;
     }
+
+    private void CheckIfAcctualGoalIsReached()
+    {
+
+    }
+
+    //private void SetGoal()
+    //{
+    //    if (isLadderGoal) return;
+    //    if (agent.transform.position.y + 2 < player.transform.position.y)
+    //    {
+    //        closestLadder = FindNearestLadder();
+    //        FindWaypoint();
+    //        isLadderGoal = true;
+    //        print("Cel: drabina");
+    //    }
+    //    else
+    //    {
+    //        goal = player.position;
+    //        isLadderGoal = false;
+    //        print("Cel: Gracz");
+    //    }
+    //    print(goal);
+    //    agent.SetDestination(goal);
+    //}
 
     private void FindWaypoint()
     {
@@ -83,6 +114,7 @@ public class NavMeshLadder : MonoBehaviour
     {
         //agent.enabled = false;
         isOnLadder = true;
+        print("Enemy touched ladder");
 /*        while (isLadderGoal) 
         {
             float x = transform.position.x;
