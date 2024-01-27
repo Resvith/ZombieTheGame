@@ -95,15 +95,15 @@ public class InputController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Alpha1))
         {
-            WeaponChange?.Invoke("pistol");
+            WeaponChange?.Invoke("Pistol");
         }
         else if (Input.GetKey(KeyCode.Alpha2))
         {
-            WeaponChange?.Invoke("shotgun");
+            WeaponChange?.Invoke("Shotgun");
         }
         else if (Input.GetKey(KeyCode.Alpha3))
         {
-            WeaponChange?.Invoke("ak-47");
+            WeaponChange?.Invoke("Ak-47");
         }
     }
 }

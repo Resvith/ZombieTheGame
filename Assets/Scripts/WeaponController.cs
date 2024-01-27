@@ -11,7 +11,7 @@ public class Weapon
     private bool isUnlocked;
     private int unlockingScore;
     private bool isCollected;
-    private Transform gunEnd;
+    private Vector3 gunEnd;
 
     public string Name { get => name; }
     public int BackbackAmmunition { get => backbackAmmunition; set => backbackAmmunition = value; }
@@ -19,7 +19,7 @@ public class Weapon
     public bool IsUnlocked { get => isUnlocked; set => isUnlocked = value; }
     public int UnlockingScore { get => unlockingScore; }
     public bool IsCollected { get => isCollected; set => isCollected = value; }
-    public Transform GunEnd { get => gunEnd; set => gunEnd = value; }
+    public Vector3 GunEnd { get => gunEnd; set => gunEnd = value; }
 
     public Weapon(string name, int backbackAmmunition, int magazineAmmutnition, int magazineCapacity, bool isUnlocked, int unlockingScore, bool isCollected)
     {
@@ -31,61 +31,131 @@ public class Weapon
         this.unlockingScore = unlockingScore;
         this.IsCollected = isCollected;
     }
+
+    public string PrintInformation()
+    {
+        return $"Name: {name}, Backpack Ammunition: {backbackAmmunition}, Magazine Ammunition: {magazineAmmutnition}, Magazine Capacity: {magazineCapacity}, Is Unlocked: {isUnlocked}, Unlocking Score: {unlockingScore}, Is Collected: {isCollected}, GunEnd: {GunEnd}";
+    }
 }
 
 public class WeaponController : MonoBehaviour
 {
     Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
+    private string currentWeaponName;
+    private Transform guns;
 
     private InputController inputController;
 
+
     void Start()
     {
+        guns = transform;
         inputController = GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>();
         inputController.WeaponChange += OnWeaponChange;
-        //CreateWeapons();
-        //FindGunEnds();
-
+        CreateWeapons();
+        FindAndSetGunEnds();
+        SetGunActive("Pistol");
+        //PrintWeaponInformations();
     }
 
     private void CreateWeapons()
     {
         weapons.Add("Pistol", new Weapon("Pistol", 999, 20, 20, true, 0, true));
-        weapons.Add("Shotgun", new Weapon("Shotgun", 50, 8, 8, false, 1000, false));
-        weapons.Add("Ak-47", new Weapon("Ak-47", 90, 30, 30, false, 2000, false));
+        weapons.Add("Shotgun", new Weapon("Shotgun", 50, 8, 8, false, 1000, true));
+        weapons.Add("Ak-47", new Weapon("Ak-47", 90, 30, 30, true, 2000, true));
     }
 
-    private void FindGunEnds()
+    private void FindAndSetGunEnds()
     {
-        foreach (Transform child in transform)
+        foreach (Transform gun in guns)
         {
-            if (child.CompareTag("Weapon"))
+            name = gun.name;
+            Vector3 gunEndPosition = new Vector3();
+            if (gun.CompareTag("Weapon"))
             {
-                print("trying");
-                Weapon weapon;
-                if (weapons.TryGetValue(child.name, out weapon))
+                foreach(Transform child in gun)
                 {
-                    Transform gunEnd = child.Find("GunEnd"); // Znajdü child o nazwie 'gunEnd'
-                    if (gunEnd != null)
+                    if (child.CompareTag("Waypoint"))
                     {
-                        weapon.GunEnd = gunEnd; // Przypisz gunEnd do broni w s≥owniku
-                    }
-                    else
-                    {
-                        Debug.LogError("GunEnd nie znaleziony dla broni: " + child.name);
+                        gunEndPosition = child.position;
                     }
                 }
-                else
+            }
+
+            Weapon weapon;
+            if (weapons.TryGetValue(name, out weapon))
+            {
+                if (gunEndPosition != null)
                 {
-                    Debug.LogError("Nie znaleziono broni w s≥owniku: " + child.name);
+                    weapon.GunEnd = gunEndPosition;
                 }
+            }
+        }
+    }
+
+    private void SetGunActive(string gunName)
+    {
+        foreach (Transform gun in guns)
+        {
+            if (gun.name == gunName)
+            {
+                gun.gameObject.SetActive(true);
+            }
+            else
+            {
+                gun.gameObject.SetActive(false);
             }
         }
     }
 
     private void OnWeaponChange(string weaponName)
     {
-        Debug.Log("Weapon changed to " + weaponName);
+        Weapon weapon;
+        if (weapons.TryGetValue(weaponName, out weapon))
+        {
+            if (weapon.IsUnlocked && weapon.IsCollected)
+            {
+                DeactiveWeapon(currentWeaponName);
+                ActivateWeapon(weaponName);
+                currentWeaponName = weaponName;
+                print("Changing wepon to: " + weaponName);
+            }
+            else
+            {
+                print("Cannot change to: " + weaponName);
+            }
+        }
+    }
+
+    private void DeactiveWeapon(string name)
+    {
+        foreach (Transform gun in guns)
+        {
+            if (gun.name == name)
+            {
+                gun.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void ActivateWeapon(string name)
+    {
+        foreach (Transform gun in guns)
+        {
+            if (gun.name == name)
+            {
+                gun.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    private void PrintWeaponInformations()
+    {
+        foreach (var weaponEntry in weapons)
+        {
+            Weapon weapon = weaponEntry.Value;
+            Debug.Log(weapon.PrintInformation());
+        }
     }
 }
 
