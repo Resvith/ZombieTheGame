@@ -12,10 +12,28 @@ public class Enemy : MonoBehaviour
     [SerializeField] int attackDamage = 1;
     [SerializeField] int enemyHp = 5;
     [SerializeField] float attackCooldown = 1.5f;
+    [SerializeField] int scoreForKill = 10;
 
     private Player player;
     private bool canAttack = true;
     private Animator animator;
+    private UITextChanger textChanger;
+
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        animator = GetComponent<Animator>();
+        textChanger = FindObjectOfType<UITextChanger>();
+    }
+
+    void Update()
+    {
+        if (Vector3.Distance(transform.position, player.transform.position) < attackRange && canAttack)
+        {
+            StartCoroutine(AttackPlayer(attackDamage));
+        }
+    }
 
     public void TakeDamage(int damageAmount)
     {
@@ -31,21 +49,9 @@ public class Enemy : MonoBehaviour
         OnEnemyKilled?.Invoke();
         gameObject.SetActive(false);
         Destroy(gameObject, 1f);
+        textChanger.IncreaseScore(scoreForKill);
     }
 
-    private void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        animator = GetComponent<Animator>();
-    }
-
-    void Update()
-    {
-        if (Vector3.Distance(transform.position, player.transform.position) < attackRange && canAttack)
-        {
-            StartCoroutine(AttackPlayer(attackDamage));
-        }
-    }
 
     IEnumerator AttackPlayer(int attackDamage)
     {
