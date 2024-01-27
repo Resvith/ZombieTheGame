@@ -456,11 +456,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a0620252a195f1438682ff8ea78efd9, type: 3}
+--- !u!1 &138594999 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4831269098690803553, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
+  m_PrefabInstance: {fileID: 7057101445904877220}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &138595000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 453480952451978388, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
   m_PrefabInstance: {fileID: 7057101445904877220}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &138595001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138594999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f189c1202a14b40a6affdd7b22aad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &201204077
 GameObject:
   m_ObjectHideFlags: 0
@@ -2393,7 +2410,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 199669651405181594, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
       propertyPath: m_Name
-      value: pistol_001
+      value: Pistol
       objectReference: {fileID: 0}
     - target: {fileID: 199669651405181594, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
       propertyPath: m_Layer
@@ -2402,6 +2419,14 @@ PrefabInstance:
     - target: {fileID: 199669651405181594, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 199669651405181594, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
+      propertyPath: m_TagString
+      value: Weapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 279119747375007141, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
+      propertyPath: m_Name
+      value: pistolMagazine
       objectReference: {fileID: 0}
     - target: {fileID: 279119747375007141, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
       propertyPath: m_Layer
@@ -2473,8 +2498,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1121416367}
   m_Layer: 0
-  m_Name: gunEnd
-  m_TagString: Untagged
+  m_Name: GunEnd
+  m_TagString: Waypoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2872,8 +2897,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1281977706}
   m_Layer: 6
-  m_Name: gunEnd
-  m_TagString: Untagged
+  m_Name: GunEnd
+  m_TagString: Waypoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3362,9 +3387,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3745853452057941777, guid: f7a69565ab2ff984789da792b0969f4b, type: 3}
+      propertyPath: m_Name
+      value: ShotgunMagazine
+      objectReference: {fileID: 0}
     - target: {fileID: 4205521026231025682, guid: f7a69565ab2ff984789da792b0969f4b, type: 3}
       propertyPath: m_Name
-      value: shotgun_001
+      value: Shotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205521026231025682, guid: f7a69565ab2ff984789da792b0969f4b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205521026231025682, guid: f7a69565ab2ff984789da792b0969f4b, type: 3}
+      propertyPath: m_TagString
+      value: Weapon
       objectReference: {fileID: 0}
     - target: {fileID: 4964742025952007781, guid: f7a69565ab2ff984789da792b0969f4b, type: 3}
       propertyPath: m_Enabled
@@ -4498,6 +4535,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a28ea253f9153784c9e92a838fba8c9f, type: 2}
+    - target: {fileID: 1142375591171824480, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
+      propertyPath: m_Name
+      value: GunEnd
+      objectReference: {fileID: 0}
+    - target: {fileID: 1142375591171824480, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
+      propertyPath: m_TagString
+      value: Waypoint
+      objectReference: {fileID: 0}
     - target: {fileID: 1445306370178006224, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
       propertyPath: m_Name
       value: Player
@@ -4510,9 +4555,21 @@ PrefabInstance:
       propertyPath: groundCheckDistance
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 5223677994260179689, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
+      propertyPath: m_Name
+      value: ak-47Magazine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5505972129457416799, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
+      propertyPath: m_Name
+      value: Ak-47
+      objectReference: {fileID: 0}
     - target: {fileID: 5505972129457416799, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5505972129457416799, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
+      propertyPath: m_TagString
+      value: Weapon
       objectReference: {fileID: 0}
     - target: {fileID: 7855293603930819467, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4563,7 +4620,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 453480952451978388, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1780264593}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4831269098690803553, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 138595001}
   m_SourcePrefab: {fileID: 100100000, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
 --- !u!1001 &8756057029707273346
 PrefabInstance:

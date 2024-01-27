@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
+    public event Action<string> WeaponChange;
+
     MovementController movementController;
     private float originalTargetMovingSpeed;
     private float targetSneakingSpeed;
@@ -20,6 +24,7 @@ public class InputController : MonoBehaviour
         JumpController();
         SneakingController();
         ClimbingController();
+        WeaponController();
     }
 
     private void MovementController()
@@ -86,4 +91,19 @@ public class InputController : MonoBehaviour
         }
     }
 
+    private void WeaponController()
+    {
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            WeaponChange?.Invoke("pistol");
+        }
+        else if (Input.GetKey(KeyCode.Alpha2))
+        {
+            WeaponChange?.Invoke("shotgun");
+        }
+        else if (Input.GetKey(KeyCode.Alpha3))
+        {
+            WeaponChange?.Invoke("ak-47");
+        }
+    }
 }
