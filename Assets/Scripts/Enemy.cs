@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
 
     private Player player;
     private bool canAttack = true;
+    private Animator animator;
 
     public void TakeDamage(int damageAmount)
     {
@@ -25,6 +26,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -41,6 +43,7 @@ public class Enemy : MonoBehaviour
         {
             canAttack = false;
             player.TakeDamage(attackDamage);
+            animator.SetTrigger("EnemyAttack");
         }
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
