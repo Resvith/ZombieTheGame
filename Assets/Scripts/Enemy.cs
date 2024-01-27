@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -5,6 +6,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public event Action OnEnemyKilled;
+
     [SerializeField] float attackRange = 1.5f;
     [SerializeField] int attackDamage = 1;
     [SerializeField] int enemyHp = 5;
@@ -19,8 +22,15 @@ public class Enemy : MonoBehaviour
         enemyHp -= damageAmount;
         if (enemyHp <= 0)
         {
-            gameObject.SetActive(false);
+            EnemyDie();
         }
+    }
+
+    public void EnemyDie()
+    {
+        OnEnemyKilled?.Invoke();
+        gameObject.SetActive(false);
+        Destroy(gameObject, 1f);
     }
 
     private void Start()
