@@ -4,37 +4,54 @@ using UnityEngine;
 
 public class Weapon
 {
-    string name;
-    int backbackAmmunition;
-    int magazineAmmutnition;
-    int magazineCapacity;
+    private string name;
+    private int damage;
+    private float range;
+    private float fireRate;
+    private int backbackAmmunition;
+    private int magazineAmmutnition;
+    private int magazineCapacity;
     private bool isUnlocked;
     private int unlockingScore;
     private bool isCollected;
     private Vector3 gunEnd;
 
     public string Name { get => name; }
+    public int Damage { get => damage; set => damage = value; }
+    public float Range { get => range; set => range = value; }
+    public float FireRate { get => fireRate; set => fireRate = value; }
     public int BackbackAmmunition { get => backbackAmmunition; set => backbackAmmunition = value; }
     public int MagazineAmmutnition { get => magazineAmmutnition; set => magazineAmmutnition = value; }
+    public int MagazineCapacity { get => magazineCapacity; set => magazineCapacity = value; }
     public bool IsUnlocked { get => isUnlocked; set => isUnlocked = value; }
     public int UnlockingScore { get => unlockingScore; }
     public bool IsCollected { get => isCollected; set => isCollected = value; }
     public Vector3 GunEnd { get => gunEnd; set => gunEnd = value; }
 
-    public Weapon(string name, int backbackAmmunition, int magazineAmmutnition, int magazineCapacity, bool isUnlocked, int unlockingScore, bool isCollected)
+    public Weapon(string name, int damage, float range, float fireRate, int backbackAmmunition, int magazineAmmutnition, int magazineCapacity, bool isUnlocked, int unlockingScore, bool isCollected)
     {
         this.name = name;
+        Damage = damage;
+        Range = range;
+        FireRate = fireRate;
         BackbackAmmunition = backbackAmmunition;
         MagazineAmmutnition = magazineAmmutnition;
-        this.magazineCapacity = magazineCapacity;
+        MagazineCapacity = magazineCapacity;
         IsUnlocked = isUnlocked;
         this.unlockingScore = unlockingScore;
-        this.IsCollected = isCollected;
+        IsCollected = isCollected;
     }
 
     public string PrintInformation()
     {
-        return $"Name: {name}, Backpack Ammunition: {backbackAmmunition}, Magazine Ammunition: {magazineAmmutnition}, Magazine Capacity: {magazineCapacity}, Is Unlocked: {isUnlocked}, Unlocking Score: {unlockingScore}, Is Collected: {isCollected}, GunEnd: {GunEnd}";
+        return $"Name: {name}," +
+            $" Backpack Ammunition: {backbackAmmunition}," +
+            $" Magazine Ammunition: {magazineAmmutnition}," +
+            $" Magazine Capacity: {MagazineCapacity}," +
+            $" Is Unlocked: {isUnlocked}," +
+            $" Unlocking Score: {unlockingScore}," +
+            $" Is Collected: {isCollected}," +
+            $" GunEnd: {GunEnd}";
     }
 }
 
@@ -60,9 +77,41 @@ public class WeaponController : MonoBehaviour
 
     private void CreateWeapons()
     {
-        weapons.Add("Pistol", new Weapon("Pistol", 999, 20, 20, true, 0, true));
-        weapons.Add("Shotgun", new Weapon("Shotgun", 50, 8, 8, false, 1000, true));
-        weapons.Add("Ak-47", new Weapon("Ak-47", 90, 30, 30, true, 2000, true));
+        weapons.Add("Pistol", new Weapon(
+                                        name: "Pistol",
+                                        damage: 1,
+                                        range: 20,
+                                        fireRate: 0.15f,
+                                        backbackAmmunition: 999,
+                                        magazineAmmutnition: 20,
+                                        magazineCapacity: 20,
+                                        isUnlocked: true,
+                                        unlockingScore: 0,
+                                        isCollected: true)); 
+
+        weapons.Add("Shotgun", new Weapon(
+                                        name: "Shotgun",
+                                        damage: 100,
+                                        range: 5,
+                                        fireRate: 0.3f,
+                                        backbackAmmunition: 48,
+                                        magazineAmmutnition: 8,
+                                        magazineCapacity: 8,
+                                        isUnlocked: false,
+                                        unlockingScore: 1000,
+                                        isCollected: false));
+
+        weapons.Add("Ak-47", new Weapon(
+                                        name: "Ak-47",
+                                        damage: 10,
+                                        range: 50,
+                                        fireRate: 0.07f,
+                                        backbackAmmunition: 180,
+                                        magazineAmmutnition: 30,
+                                        magazineCapacity: 30,
+                                        isUnlocked: true,
+                                        unlockingScore: 2000,
+                                        isCollected: true));
     }
 
     private void FindAndSetGunEnds()
