@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: 1374086685226492056}
   - component: {fileID: 730999375205647086}
   - component: {fileID: 1495602859410837696}
+  - component: {fileID: 7993050757599307541}
   - component: {fileID: 5402851398043819579}
   m_Layer: 9
   m_Name: Player
@@ -283,6 +284,18 @@ MonoBehaviour:
   characterBottom: {fileID: 5138913038875663814}
   climbingSpeed: 90
   groundCheckDistance: 0.1
+--- !u!114 &7993050757599307541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445306370178006224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ec7dcce0674d448816f9ac3c86f2b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &5402851398043819579
 Rigidbody:
   m_ObjectHideFlags: 0

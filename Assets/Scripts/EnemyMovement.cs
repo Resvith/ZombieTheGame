@@ -6,24 +6,29 @@ using UnityEngine.AI;
 
 public class NavMeshLadder : MonoBehaviour
 {
-    public Transform player;
-
     [SerializeField] private float climbingSpeed = 1f;
     [SerializeField] private float fallingSpeed = 10f;
 
+    private Player player;
     private NavMeshAgent agent;
-    private float speed;
+    private float basicSpeed;
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         agent = GetComponent<NavMeshAgent>();
-        speed = agent.speed;
+        basicSpeed = agent.speed;
     }
 
     void Update()
     {
         agent.SetDestination(player.transform.position);
-        print(agent.isOnOffMeshLink);
+        SetFallingClimbingSpeed();
+        TurnToPlayerWhileAttacking();
+    }
+
+    void SetFallingClimbingSpeed()
+    {
         if (agent.isOnOffMeshLink)
         {
             if (agent.currentOffMeshLinkData.startPos.y < agent.currentOffMeshLinkData.endPos.y)
@@ -37,8 +42,12 @@ public class NavMeshLadder : MonoBehaviour
         }
         else
         {
-            agent.speed = speed;
+            agent.speed = basicSpeed;
         }
     }
 
+    void TurnToPlayerWhileAttacking()
+    {
+        transform.LookAt(player.transform.position);
+    }
 }

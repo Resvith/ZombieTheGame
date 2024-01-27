@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 3682739099250747537}
   - component: {fileID: 6981180069677622521}
   - component: {fileID: 8710920083440895172}
-  - component: {fileID: 3012351724285014018}
+  - component: {fileID: 6792915580929304244}
+  - component: {fileID: 7550507000033506146}
   - component: {fileID: 231616063546785939}
+  - component: {fileID: 121292119138175873}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -112,7 +114,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3012351724285014018
+--- !u!114 &6792915580929304244
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,13 +123,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 2106179492653800074}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 452bae85e1400f74d9e2c53c057ba061, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a3cf9f3dc6237e458c8ad53a5ddfc2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  attackRange: 5
-  enemy: {fileID: 0}
-  enemyHp: 20
+  attackRange: 1.5
+  attackDamage: 1
+  enemyHp: 5
+  attackCooldown: 1.5
+--- !u!114 &7550507000033506146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106179492653800074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eb6cd9c2ea325344972edda1b5a05d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbingSpeed: 1
+  fallingSpeed: 10
 --- !u!54 &231616063546785939
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -151,10 +167,32 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!195 &121292119138175873
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106179492653800074}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 2
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &8519492293539519427
 GameObject:
   m_ObjectHideFlags: 0
