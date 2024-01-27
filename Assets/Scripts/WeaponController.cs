@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,6 +58,8 @@ public class Weapon
 
 public class WeaponController : MonoBehaviour
 {
+    public event Action<Weapon> OnWeaponChanged;
+
     Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
     private string currentWeaponName;
     private Transform guns;
@@ -168,6 +171,7 @@ public class WeaponController : MonoBehaviour
                 ActivateWeapon(weaponName);
                 currentWeaponName = weaponName;
                 print("Changing wepon to: " + weaponName);
+                OnWeaponChanged?.Invoke(weapon);
             }
             else
             {

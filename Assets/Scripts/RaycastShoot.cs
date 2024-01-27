@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class RaycastShoot : MonoBehaviour
 {
-    public int gunDamage = 1;                                            // Set the number of hitpoints that this gun will take away from shot objects with a health script
-    public float fireRate = 0.25f;                                        // Number in seconds which controls how often the player can fire
-    public float weaponRange = 50f;                                        // Distance in Unity units over which the player can fire
-    public float hitForce = 100f;                                        // Amount of force which will be added to objects with a rigidbody shot by the player
-    public Transform gunEnd;                                            // Holds a reference to the gun end object, marking the muzzle location of the gun
-
+    private int gunDamage = 1;                                            // Set the number of hitpoints that this gun will take away from shot objects with a health script
+    private float fireRate = 0.25f;                                        // Number in seconds which controls how often the player can fire
+    private float weaponRange = 50f;                                        // Distance in Unity units over which the player can fire
+    private float hitForce = 100f;                                        // Amount of force which will be added to objects with a rigidbody shot by the player
+    private Vector3 gunEnd;                                            // Holds a reference to the gun end object, marking the muzzle location of the gun
     private Camera fpsCam;                                                // Holds a reference to the first person camera
     private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);    // WaitForSeconds object used by our ShotEffect coroutine, determines time laser line will remain visible
     private AudioSource gunAudio;                                        // Reference to the audio source which will play our shooting sound effect
@@ -23,6 +22,15 @@ public class RaycastShoot : MonoBehaviour
         gunAudio = GetComponent<AudioSource>();
         fpsCam = GetComponentInParent<Camera>();
         SetRaycastColor(Color.gray);
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WeaponController>().OnWeaponChanged += ChangeWeaponParrameters;
+    }
+
+    void ChangeWeaponParrameters(Weapon weapon)
+    {
+        gunDamage = weapon.Damage;
+        fireRate = weapon.FireRate;
+        weaponRange = weapon.Range;
+        gunEnd = weapon.GunEnd;
     }
 
     void SetRaycastColor(Color color)
@@ -50,7 +58,7 @@ public class RaycastShoot : MonoBehaviour
             RaycastHit hit;
 
             // Set the start position for our visual effect for our laser to the position of gunEnd
-            laserLine.SetPosition(0, gunEnd.position);
+            laserLine.SetPosition(0, gunEnd);
 
             // Check if our raycast has hit anything
             if (Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, weaponRange))
