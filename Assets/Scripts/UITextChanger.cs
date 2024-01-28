@@ -9,22 +9,48 @@ using UnityEngine.UI;
 public class UITextChanger : MonoBehaviour
 {
     public Text hp;
-    public Text totalAmumnition;
+    public Text backpackAmmunition;
     public Text magazineAmmunition;
     public Text score;
 
     private Player player;
+    private RaycastShoot raycastShoot;
+    private WeaponController weaponController;
 
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player.OnHealthChanged += ChangeHealthText;
+
+        raycastShoot = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<RaycastShoot>();
+        raycastShoot.OnShoot += OnShoot;
+
+        weaponController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WeaponController>();
+        weaponController.OnWeaponChanged += OnWeaponChange;
     }
 
     private void ChangeHealthText(int health)
     {
         hp.text = health.ToString();
+    }
+
+    private void OnWeaponChange(Weapon weapon)
+    {
+        magazineAmmunition.text = weapon.MagazineAmmutnition.ToString();
+        backpackAmmunition.text = weapon.BackbackAmmunition.ToString();
+    }
+
+    private void OnShoot()
+    {
+        int magazineAmmunitionInt = int.Parse(magazineAmmunition.text);
+        magazineAmmunitionInt--;
+        magazineAmmunition.text = magazineAmmunitionInt.ToString();
+    }
+
+    private void OnReload()
+    {
+
     }
 
     public void IncreaseScore(int score)

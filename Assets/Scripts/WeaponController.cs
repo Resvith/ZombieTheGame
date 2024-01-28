@@ -70,7 +70,6 @@ public class WeaponController : MonoBehaviour
     Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
     private string currentWeaponName;
     private Transform guns;
-
     private InputController inputController;
 
 
@@ -212,6 +211,12 @@ public class WeaponController : MonoBehaviour
             }
         }
     }
+
+    private void DecreaseAmmunition()
+    {
+
+    }
+    
 
     private void PrintWeaponInformations()
     {

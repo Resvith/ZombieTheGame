@@ -1,12 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RaycastShoot : MonoBehaviour
 {
+    public event Action OnShoot;
+
     private int gunDamage = 1;                              
     private float fireRate = 0.25f;                                       
-    private float weaponRange = 50f;                                     
+    private float weaponRange = 50f;    
+    private int magazineAmmunition = 20;
+    private int backbackAmmunition = 100;
+    private int magaineCapacity = 20;
     private Transform gunEnd;                                   
     private Camera fpsCam;                                                
     private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);     
@@ -30,6 +36,9 @@ public class RaycastShoot : MonoBehaviour
         gunDamage = weapon.Damage;
         fireRate = weapon.FireRate;
         weaponRange = weapon.Range;
+        magazineAmmunition = weapon.MagazineAmmutnition;
+        backbackAmmunition = weapon.BackbackAmmunition;
+        magaineCapacity = weapon.MagazineCapacity;
         gunEnd = weapon.GunEnd;
     }
 
@@ -43,8 +52,9 @@ public class RaycastShoot : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1") && Time.time >= nextFire)
+        if (Input.GetButtonDown("Fire1") && Time.time >= nextFire && magazineAmmunition > 0)
         {
+            OnShoot?.Invoke();
             nextFire = Time.time + fireRate;
             StartCoroutine(ShotEffect());
             Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
