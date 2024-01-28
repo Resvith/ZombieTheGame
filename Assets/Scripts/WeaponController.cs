@@ -107,9 +107,9 @@ public class WeaponController : MonoBehaviour
                                         backbackAmmunition: 48,
                                         magazineAmmutnition: 8,
                                         magazineCapacity: 8,
-                                        isUnlocked: false,
+                                        isUnlocked: true,
                                         unlockingScore: 1000,
-                                        isCollected: false,
+                                        isCollected: true,
                                         gunShot: shotgunShootEfect));
 
         weapons.Add("Ak-47", new Weapon(
