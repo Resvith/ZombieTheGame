@@ -15,7 +15,8 @@ public class Weapon
     private bool isUnlocked;
     private int unlockingScore;
     private bool isCollected;
-    private Vector3 gunEnd;
+    private Transform gunEnd;
+    private AudioSource gunShot;
 
     public string Name { get => name; }
     public int Damage { get => damage; set => damage = value; }
@@ -27,9 +28,10 @@ public class Weapon
     public bool IsUnlocked { get => isUnlocked; set => isUnlocked = value; }
     public int UnlockingScore { get => unlockingScore; }
     public bool IsCollected { get => isCollected; set => isCollected = value; }
-    public Vector3 GunEnd { get => gunEnd; set => gunEnd = value; }
+    public Transform GunEnd { get => gunEnd; set => gunEnd = value; }
+    public AudioSource GunShot { get => gunShot; set => gunShot = value; }
 
-    public Weapon(string name, int damage, float range, float fireRate, int backbackAmmunition, int magazineAmmutnition, int magazineCapacity, bool isUnlocked, int unlockingScore, bool isCollected)
+    public Weapon(string name, int damage, float range, float fireRate, int backbackAmmunition, int magazineAmmutnition, int magazineCapacity, bool isUnlocked, int unlockingScore, bool isCollected, AudioSource gunShot)
     {
         this.name = name;
         Damage = damage;
@@ -41,6 +43,7 @@ public class Weapon
         IsUnlocked = isUnlocked;
         this.unlockingScore = unlockingScore;
         IsCollected = isCollected;
+        GunShot = gunShot;
     }
 
     public string PrintInformation()
@@ -59,6 +62,10 @@ public class Weapon
 public class WeaponController : MonoBehaviour
 {
     public event Action<Weapon> OnWeaponChanged;
+
+    public AudioSource pistolShootEfect;
+    public AudioSource shotgunShootEfect;
+    public AudioSource akShootEfect;
 
     Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
     private string currentWeaponName;
@@ -90,7 +97,8 @@ public class WeaponController : MonoBehaviour
                                         magazineCapacity: 20,
                                         isUnlocked: true,
                                         unlockingScore: 0,
-                                        isCollected: true)); 
+                                        isCollected: true,
+                                        gunShot: pistolShootEfect)); 
 
         weapons.Add("Shotgun", new Weapon(
                                         name: "Shotgun",
@@ -102,7 +110,8 @@ public class WeaponController : MonoBehaviour
                                         magazineCapacity: 8,
                                         isUnlocked: false,
                                         unlockingScore: 1000,
-                                        isCollected: false));
+                                        isCollected: false,
+                                        gunShot: shotgunShootEfect));
 
         weapons.Add("Ak-47", new Weapon(
                                         name: "Ak-47",
@@ -114,22 +123,23 @@ public class WeaponController : MonoBehaviour
                                         magazineCapacity: 30,
                                         isUnlocked: true,
                                         unlockingScore: 2000,
-                                        isCollected: true));
+                                        isCollected: true,
+                                        gunShot: akShootEfect));
     }
 
     private void FindAndSetGunEnds()
     {
+        Transform gunEnd = null;
         foreach (Transform gun in guns)
         {
             name = gun.name;
-            Vector3 gunEndPosition = new Vector3();
             if (gun.CompareTag("Weapon"))
             {
                 foreach(Transform child in gun)
                 {
                     if (child.CompareTag("Waypoint"))
                     {
-                        gunEndPosition = child.position;
+                        gunEnd = child;
                     }
                 }
             }
@@ -137,9 +147,9 @@ public class WeaponController : MonoBehaviour
             Weapon weapon;
             if (weapons.TryGetValue(name, out weapon))
             {
-                if (gunEndPosition != null)
+                if (gunEnd != null)
                 {
-                    weapon.GunEnd = gunEndPosition;
+                    weapon.GunEnd = gunEnd;
                 }
             }
         }
@@ -158,9 +168,10 @@ public class WeaponController : MonoBehaviour
                 gun.gameObject.SetActive(false);
             }
         }
+        OnWeaponChange(gunName);
     }
 
-    private void OnWeaponChange(string weaponName)
+    public void OnWeaponChange(string weaponName)
     {
         Weapon weapon;
         if (weapons.TryGetValue(weaponName, out weapon))

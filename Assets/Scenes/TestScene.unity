@@ -478,6 +478,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57f189c1202a14b40a6affdd7b22aad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pistolShootEfect: {fileID: 0}
+  shotgunShootEfect: {fileID: 0}
+  akShootEfect: {fileID: 0}
 --- !u!120 &138595002
 LineRenderer:
   serializedVersion: 2
@@ -530,8 +533,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
+        time: 0.11151123
+        value: 0.03875923
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -4827,6 +4830,10 @@ PrefabInstance:
     - target: {fileID: 1495602859410837696, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
       propertyPath: groundCheckDistance
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4831269098690803553, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
+      propertyPath: m_Name
+      value: WeaponController
       objectReference: {fileID: 0}
     - target: {fileID: 5223677994260179689, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
       propertyPath: m_Name
