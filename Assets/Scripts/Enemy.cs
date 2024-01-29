@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -9,7 +7,7 @@ public class Enemy : MonoBehaviour
     public event Action OnEnemyKilled;
 
     [SerializeField] float attackRange = 1.5f;
-    [SerializeField] int attackDamage = 1;
+    [SerializeField] int attackDamage = 5;
     [SerializeField] int enemyHp = 5;
     [SerializeField] float attackCooldown = 1.5f;
     [SerializeField] int scoreForKill = 10;

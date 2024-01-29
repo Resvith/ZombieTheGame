@@ -10,6 +10,7 @@ TagManager:
   - Ladder
   - Waypoint
   - Weapon
+  - Score
   layers:
   - Default
   - TransparentFX

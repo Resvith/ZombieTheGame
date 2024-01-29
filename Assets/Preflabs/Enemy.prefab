@@ -128,9 +128,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 1.71
-  attackDamage: 1
+  attackDamage: 5
   enemyHp: 5
   attackCooldown: 1.5
+  scoreForKill: 10
 --- !u!114 &7550507000033506146
 MonoBehaviour:
   m_ObjectHideFlags: 0
