@@ -965,6 +965,16 @@ Transform:
   - {fileID: 392135466}
   m_Father: {fileID: 507173452}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &346608615 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4205521026231025682, guid: f7a69565ab2ff984789da792b0969f4b, type: 3}
+  m_PrefabInstance: {fileID: 1419037512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &388242444 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6154803127221020273, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
+  m_PrefabInstance: {fileID: 7057101445904877220}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &391046880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,6 +1620,33 @@ Transform:
   - {fileID: 343632397}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &633373454 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5505972129457416799, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
+  m_PrefabInstance: {fileID: 7057101445904877220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &633373456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633373454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1075d9df2cb361440904c53b2265eb20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunEnd: {fileID: 388242444}
+  damage: 50
+  range: 50
+  fireRate: 0.07
+  backbackAmmunition: 100
+  magazineAmmutnition: 30
+  magazineCapacity: 30
+  isUnlocked: 1
+  unlockingScore: 2000
+  isCollected: 1
 --- !u!4 &686511706 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 688644825341151264, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
@@ -1974,6 +2011,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889289423}
   m_CullTransparentMesh: 1
+--- !u!1 &995332517 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 199669651405181594, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
+  m_PrefabInstance: {fileID: 1074418131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &995332521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995332517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1075d9df2cb361440904c53b2265eb20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunEnd: {fileID: 1281977706}
+  damage: 1
+  range: 20
+  fireRate: 0.25
+  backbackAmmunition: 999
+  magazineAmmutnition: 20
+  magazineCapacity: 20
+  isUnlocked: 1
+  unlockingScore: 0
+  isCollected: 1
 --- !u!1 &1045177229
 GameObject:
   m_ObjectHideFlags: 0
@@ -2213,7 +2277,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 688644825341151264, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1281977706}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 199669651405181594, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 995332521}
   m_SourcePrefab: {fileID: 100100000, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
 --- !u!1 &1121416366
 GameObject:
@@ -3101,7 +3168,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3537247361575131816, guid: f7a69565ab2ff984789da792b0969f4b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1121416367}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4205521026231025682, guid: f7a69565ab2ff984789da792b0969f4b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1780264597}
   m_SourcePrefab: {fileID: 100100000, guid: f7a69565ab2ff984789da792b0969f4b, type: 3}
 --- !u!1 &1420831119
 GameObject:
@@ -3698,6 +3768,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3537247361575131816, guid: f7a69565ab2ff984789da792b0969f4b, type: 3}
   m_PrefabInstance: {fileID: 1419037512}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1780264597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346608615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1075d9df2cb361440904c53b2265eb20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunEnd: {fileID: 1121416367}
+  damage: 200
+  range: 10
+  fireRate: 1
+  backbackAmmunition: 48
+  magazineAmmutnition: 8
+  magazineCapacity: 8
+  isUnlocked: 1
+  unlockingScore: 1000
+  isCollected: 1
 --- !u!1 &1789195908
 GameObject:
   m_ObjectHideFlags: 0
@@ -4300,6 +4392,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4831269098690803553, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 138595002}
+    - targetCorrespondingSourceObject: {fileID: 5505972129457416799, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 633373456}
   m_SourcePrefab: {fileID: 100100000, guid: 41a3855fbffda794593a2c10dda510c0, type: 3}
 --- !u!1001 &8756057029707273346
 PrefabInstance:

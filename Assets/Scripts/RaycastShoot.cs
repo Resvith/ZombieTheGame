@@ -13,13 +13,14 @@ public class RaycastShoot : MonoBehaviour
     private int magazineAmmunition = 20;
     private int backbackAmmunition = 100;
     private int magaineCapacity = 20;
+    private float reloadTime;
     private Transform gunEnd;                                   
     private Camera fpsCam;                                                
     private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);     
     private AudioSource gunAudio;                                     
     private LineRenderer laserLine;                                        
-    private float nextFire;                    
-
+    private float nextFire;
+    private Weapon currentWeapon;
 
     void Start()
     {
@@ -28,7 +29,7 @@ public class RaycastShoot : MonoBehaviour
         fpsCam = GetComponentInParent<Camera>();
         SetRaycastColor(Color.gray);
         GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WeaponController>().OnWeaponChanged += ChangeWeaponParrameters;
-        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WeaponController>().OnWeaponChange("Pistol");
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WeaponController>().OnWeaponChange("Ak-47");
     }
 
     void ChangeWeaponParrameters(Weapon weapon)
@@ -38,8 +39,11 @@ public class RaycastShoot : MonoBehaviour
         weaponRange = weapon.Range;
         magazineAmmunition = weapon.MagazineAmmutnition;
         backbackAmmunition = weapon.BackbackAmmunition;
+        reloadTime = weapon.ReloadTime;
         magaineCapacity = weapon.MagazineCapacity;
         gunEnd = weapon.GunEnd;
+
+        currentWeapon = weapon;
     }
 
     void SetRaycastColor(Color color)
@@ -54,7 +58,10 @@ public class RaycastShoot : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1") && Time.time >= nextFire && magazineAmmunition > 0)
         {
+            print("magazine" + currentWeapon.MagazineAmmutnition);
+            print("backpack" + currentWeapon.BackbackAmmunition);
             OnShoot?.Invoke();
+            DecreaseWeaponAmmunition();
             nextFire = Time.time + fireRate;
             StartCoroutine(ShotEffect());
             Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
@@ -77,8 +84,40 @@ public class RaycastShoot : MonoBehaviour
                 laserLine.SetPosition(1, rayOrigin + (fpsCam.transform.forward * weaponRange));
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Reload();
+            print("Reload");
+        }
     }
 
+    private IEnumerator Reload()
+    {
+        if (currentWeapon.BackbackAmmunition > 0)
+        {
+            int reloadedAmmunition = 0; 
+            if (currentWeapon.BackbackAmmunition >= currentWeapon.MagazineCapacity)
+            {
+                reloadedAmmunition = currentWeapon.MagazineCapacity;
+            }
+            else
+            {
+                reloadedAmmunition = currentWeapon.BackbackAmmunition;
+            }
+            yield return reloadTime;
+            currentWeapon.MagazineAmmutnition = reloadedAmmunition;
+            currentWeapon.MagazineAmmutnition -= reloadedAmmunition;
+
+        }
+        yield return null;
+    }
+
+    private void DecreaseWeaponAmmunition()
+    {
+        currentWeapon.MagazineAmmutnition--;
+        magazineAmmunition--;
+    }
 
     private IEnumerator ShotEffect()
     {
