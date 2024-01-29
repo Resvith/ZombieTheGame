@@ -592,9 +592,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4311248730837266121, guid: c20daf91d2bce304c85fec03f5fafd3b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7481542289444174609}
-    - targetCorrespondingSourceObject: {fileID: 4311248730837266121, guid: c20daf91d2bce304c85fec03f5fafd3b, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6024235960559884448}
     - targetCorrespondingSourceObject: {fileID: 4311248730837266121, guid: c20daf91d2bce304c85fec03f5fafd3b, type: 3}
       insertIndex: -1
@@ -610,23 +607,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4311248730837266121, guid: c20daf91d2bce304c85fec03f5fafd3b, type: 3}
   m_PrefabInstance: {fileID: 8628199358194123926}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7481542289444174609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5505972129457416799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 330a1ad8d80e07a42862556fcc70f3b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gunDamage: 1
-  fireRate: 0
-  weaponRange: 50
-  hitForce: 100
-  gunEnd: {fileID: 6154803127221020273}
 --- !u!120 &6024235960559884448
 LineRenderer:
   serializedVersion: 2

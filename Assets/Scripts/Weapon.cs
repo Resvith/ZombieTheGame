@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public Transform gunEnd;
+    public event Action<Weapon> OnShoot;
+    public event Action<Weapon> Reloaded;
 
     private string weaponName;
     [SerializeField] private int damage;
@@ -14,6 +17,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int magazineAmmutnition;
     [SerializeField] private int magazineCapacity;
     [SerializeField] private float reloadTime;
+    private bool reloading = false;
     [SerializeField] private bool isUnlocked;
     [SerializeField] private int unlockingScore;
     [SerializeField] private bool isCollected;
@@ -32,6 +36,7 @@ public class Weapon : MonoBehaviour
     public bool IsCollected { get => isCollected; set => isCollected = value; }
     public Transform GunEnd { get => gunEnd; set => gunEnd = value; }
     public AudioSource GunShot { get => gunShot; set => gunShot = value; }
+    public float NextFire { get => nextFire; set => nextFire = value; }
 
     public Weapon(string weaponName, int damage, float range, float fireRate, int backbackAmmunition, int magazineAmmutnition, int magazineCapacity, float reloadTime, bool isUnlocked, int unlockingScore, bool isCollected, AudioSource gunShot)
     {
@@ -60,4 +65,91 @@ public class Weapon : MonoBehaviour
             $" Is Collected: {isCollected}," +
             $" GunEnd: {GunEnd}";
     }
+
+    private Camera fpsCam;
+    private LineRenderer laserLine;
+    private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);
+    private float nextFire;
+
+    private void Start()
+    {
+        laserLine = GetComponent<LineRenderer>();
+        gunShot = GetComponent<AudioSource>();
+        fpsCam = GetComponentInParent<Camera>();
+        SetRaycastColor(Color.gray);
+    }
+
+    private void Update()
+    {
+
+    }
+
+    void SetRaycastColor(Color color)
+    {
+        Material laserMaterial = laserLine.material;
+        laserMaterial.color = color;
+        laserLine.material = laserMaterial;
+    }
+
+    public void Shoot()
+    {
+        OnShoot?.Invoke(this);
+        magazineAmmutnition--;
+        NextFire = Time.time + fireRate;
+        StartCoroutine(ShotEffect());
+        Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
+        RaycastHit hit;
+        laserLine.SetPosition(0, gunEnd.position);
+
+        if (Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, range))
+        {
+            laserLine.SetPosition(1, hit.point);
+            Enemy enemy = hit.collider.GetComponent<Enemy>();
+
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+            }
+
+        }
+        else
+        {
+            laserLine.SetPosition(1, rayOrigin + (fpsCam.transform.forward * range));
+        }
+    }
+
+
+   
+    private IEnumerator ShotEffect()
+    {
+        //gunAudio.Play();
+
+        laserLine.enabled = true;
+        yield return shotDuration;
+        laserLine.enabled = false;
+    }
+
+    public IEnumerator Reload()
+    {
+        if (!reloading && backbackAmmunition > 0 && magazineAmmutnition < magazineCapacity)
+        {
+            reloading = true;
+            int neededAmmunition = magazineCapacity - magazineAmmutnition;
+            int reloadedAmmunition = Math.Min(neededAmmunition, backbackAmmunition);
+
+            yield return new WaitForSeconds(reloadTime);
+
+            backbackAmmunition -= reloadedAmmunition;
+            magazineAmmutnition += reloadedAmmunition;
+
+            Reloaded?.Invoke(this);
+
+            reloading = false;
+        }
+        else
+        {
+            yield break;
+        }
+    }
+
 }

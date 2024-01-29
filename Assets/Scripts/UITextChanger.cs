@@ -14,7 +14,6 @@ public class UITextChanger : MonoBehaviour
     public Text score;
 
     private Player player;
-    private RaycastShoot raycastShoot;
     private WeaponController weaponController;
 
 
@@ -22,9 +21,6 @@ public class UITextChanger : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player.OnHealthChanged += ChangeHealthText;
-
-        raycastShoot = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<RaycastShoot>();
-        raycastShoot.OnShoot += OnShoot;
 
         weaponController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WeaponController>();
         weaponController.OnWeaponChanged += OnWeaponChange;

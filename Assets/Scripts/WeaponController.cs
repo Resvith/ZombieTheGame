@@ -14,6 +14,7 @@ public class WeaponController : MonoBehaviour
 
     Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
     private string currentWeaponName;
+    private Weapon currentWeapon;
     private Transform guns;
     private InputController inputController;
 
@@ -30,6 +31,21 @@ public class WeaponController : MonoBehaviour
 
         //PrintWeaponInformations();
     }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Fire1") && Time.time >= currentWeapon.NextFire && currentWeapon.MagazineAmmutnition > 0)
+        {
+            currentWeapon.Shoot();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            print("key R pressed");
+            StartCoroutine(currentWeapon.Reload());
+        }
+    }
+
 
     private void FindWeaponsAndSaveToDictionary()
     {
@@ -68,6 +84,7 @@ public class WeaponController : MonoBehaviour
                 DeactiveWeapon(currentWeaponName);
                 ActivateWeapon(weaponName);
                 currentWeaponName = weaponName;
+                currentWeapon = weapon;
                 print("Changing wepon to: " + weaponName);
                 OnWeaponChanged?.Invoke(weapon);
             }
