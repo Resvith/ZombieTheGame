@@ -22,16 +22,34 @@ public class UITextChanger : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player.OnHealthChanged += ChangeHealthText;
 
+        WeaponSubscriber();
+    }
+
+    private void WeaponSubscriber()
+    {
         weaponController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WeaponController>();
         weaponController.OnWeaponChanged += OnWeaponChange;
-        
+
+        // It's needed because OnWeaponChange do not include first selected weapon when game starts
         Weapon[] weapons = GameObject.FindGameObjectWithTag("Player").GetComponentsInChildren<Weapon>();
-        //foreach (Weapon weapon in weapons)
-        //{
-        //    print(weapon.name);
-        //    weapon.OnShoot += DecreaseMagazineAmmunition;
-        //    weapon.Reloaded += UpdateAmmunitionInformation;
-        //}
+        foreach (Weapon weapon in weapons)
+        {
+            weapon.OnShoot += DecreaseMagazineAmmunition;
+            weapon.Reloaded += UpdateAmmunitionInformation;
+        }
+
+    }
+
+    private void ChangeHealthText(int health)
+    {
+        hp.text = health.ToString();
+    }
+    private void OnWeaponChange(Weapon weapon)
+    {
+        magazineAmmunition.text = weapon.MagazineAmmutnition.ToString();
+        backpackAmmunition.text = weapon.BackbackAmmunition.ToString();
+        weapon.OnShoot += DecreaseMagazineAmmunition;
+        weapon.Reloaded += UpdateAmmunitionInformation;
     }
 
     private void DecreaseMagazineAmmunition(Weapon weapon)
@@ -43,19 +61,6 @@ public class UITextChanger : MonoBehaviour
     {
         magazineAmmunition.text = weapon.MagazineAmmutnition.ToString();
         backpackAmmunition.text = weapon.BackbackAmmunition.ToString();
-    }
-
-    private void ChangeHealthText(int health)
-    {
-        hp.text = health.ToString();
-    }
-
-    private void OnWeaponChange(Weapon weapon)
-    {
-        magazineAmmunition.text = weapon.MagazineAmmutnition.ToString();
-        backpackAmmunition.text = weapon.BackbackAmmunition.ToString();
-        weapon.OnShoot += DecreaseMagazineAmmunition;
-        weapon.Reloaded += UpdateAmmunitionInformation;
     }
 
     public void IncreaseScore(int score)
