@@ -9,6 +9,10 @@ public class Weapon : MonoBehaviour
     public event Action<Weapon> OnShoot;
     public event Action<Weapon> Reloaded;
 
+    private Camera fpsCam;
+    private LineRenderer laserLine;
+    private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);
+    private float nextFire;
     private string weaponName;
     [SerializeField] private int damage;
     [SerializeField] private float range;
@@ -38,6 +42,7 @@ public class Weapon : MonoBehaviour
     public AudioSource GunShot { get => gunShot; set => gunShot = value; }
     public float NextFire { get => nextFire; set => nextFire = value; }
 
+
     public Weapon(string weaponName, int damage, float range, float fireRate, int backbackAmmunition, int magazineAmmutnition, int magazineCapacity, float reloadTime, bool isUnlocked, int unlockingScore, bool isCollected, AudioSource gunShot)
     {
         this.weaponName = weaponName;
@@ -66,22 +71,12 @@ public class Weapon : MonoBehaviour
             $" GunEnd: {GunEnd}";
     }
 
-    private Camera fpsCam;
-    private LineRenderer laserLine;
-    private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);
-    private float nextFire;
-
     private void Start()
     {
         laserLine = GetComponent<LineRenderer>();
         gunShot = GetComponent<AudioSource>();
         fpsCam = GetComponentInParent<Camera>();
         SetRaycastColor(Color.gray);
-    }
-
-    private void Update()
-    {
-
     }
 
     void SetRaycastColor(Color color)
@@ -93,8 +88,8 @@ public class Weapon : MonoBehaviour
 
     public void Shoot()
     {
-        OnShoot?.Invoke(this);
         magazineAmmutnition--;
+        OnShoot?.Invoke(this);
         NextFire = Time.time + fireRate;
         StartCoroutine(ShotEffect());
         Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));

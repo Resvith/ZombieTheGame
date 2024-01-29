@@ -24,6 +24,25 @@ public class UITextChanger : MonoBehaviour
 
         weaponController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WeaponController>();
         weaponController.OnWeaponChanged += OnWeaponChange;
+        
+        Weapon[] weapons = GameObject.FindGameObjectWithTag("Player").GetComponentsInChildren<Weapon>();
+        //foreach (Weapon weapon in weapons)
+        //{
+        //    print(weapon.name);
+        //    weapon.OnShoot += DecreaseMagazineAmmunition;
+        //    weapon.Reloaded += UpdateAmmunitionInformation;
+        //}
+    }
+
+    private void DecreaseMagazineAmmunition(Weapon weapon)
+    {
+        magazineAmmunition.text = weapon.MagazineAmmutnition.ToString();
+    }
+
+    private void UpdateAmmunitionInformation(Weapon weapon)
+    {
+        magazineAmmunition.text = weapon.MagazineAmmutnition.ToString();
+        backpackAmmunition.text = weapon.BackbackAmmunition.ToString();
     }
 
     private void ChangeHealthText(int health)
@@ -35,18 +54,8 @@ public class UITextChanger : MonoBehaviour
     {
         magazineAmmunition.text = weapon.MagazineAmmutnition.ToString();
         backpackAmmunition.text = weapon.BackbackAmmunition.ToString();
-    }
-
-    private void OnShoot()
-    {
-        int magazineAmmunitionInt = int.Parse(magazineAmmunition.text);
-        magazineAmmunitionInt--;
-        magazineAmmunition.text = magazineAmmunitionInt.ToString();
-    }
-
-    private void OnReload()
-    {
-
+        weapon.OnShoot += DecreaseMagazineAmmunition;
+        weapon.Reloaded += UpdateAmmunitionInformation;
     }
 
     public void IncreaseScore(int score)
