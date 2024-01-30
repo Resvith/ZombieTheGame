@@ -33,7 +33,7 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1") && Time.time >= currentWeapon.NextFire && currentWeapon.MagazineAmmutnition > 0)
+        if (Input.GetButtonDown("Fire1"))
         {
             currentWeapon.Shoot();
         }

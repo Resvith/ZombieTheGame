@@ -89,28 +89,36 @@ public class Weapon : MonoBehaviour
 
     public void Shoot()
     {
-        magazineAmmutnition--;
-        OnShoot?.Invoke(this);
-        NextFire = Time.time + fireRate;
-        StartCoroutine(ShotEffect());
-        Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
-        RaycastHit hit;
-        laserLine.SetPosition(0, gunEnd.position);
-
-        if (Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, range))
+        if (!reloading && Time.time >= nextFire && magazineAmmutnition > 0)
         {
-            laserLine.SetPosition(1, hit.point);
-            Enemy enemy = hit.collider.GetComponent<Enemy>();
+            magazineAmmutnition--;
+            OnShoot?.Invoke(this);
+            NextFire = Time.time + fireRate;
+            StartCoroutine(ShotEffect());
+            Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
+            RaycastHit hit;
+            laserLine.SetPosition(0, gunEnd.position);
 
-            if (enemy != null)
+            if (Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, range))
             {
-                enemy.TakeDamage(damage);
-            }
+                laserLine.SetPosition(1, hit.point);
+                Enemy enemy = hit.collider.GetComponent<Enemy>();
 
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(damage);
+                }
+
+            }
+            else
+            {
+                laserLine.SetPosition(1, rayOrigin + (fpsCam.transform.forward * range));
+            }
         }
-        else
+
+        else if (!reloading && magazineAmmutnition == 0)
         {
-            laserLine.SetPosition(1, rayOrigin + (fpsCam.transform.forward * range));
+            StartCoroutine(Reload());
         }
     }
    
