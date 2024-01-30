@@ -27,7 +27,9 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (Vector3.Distance(transform.position, _player.transform.position) < _attackRange && _canAttack)
+        float playerDistance = Vector3.Distance(transform.position, _player.transform.position);
+        float playerHeightDifference = Math.Abs(_player.transform.position.y - transform.position.y);
+        if (playerDistance < _attackRange && _canAttack || playerDistance - playerHeightDifference < 0.2 && _canAttack)
             StartCoroutine(AttackPlayer(_attackDamage));
     }
 

@@ -99,7 +99,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106179492653800074}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 30f12345a15f9d2489ddf085cab8a333, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -127,11 +127,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3cf9f3dc6237e458c8ad53a5ddfc2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1.71
-  attackDamage: 5
-  enemyHp: 5
-  attackCooldown: 1.5
-  scoreForKill: 10
+  _attackRange: 1.5
+  _attackDamage: 2
+  _enemyHp: 5
+  _attackCooldown: 1.5
+  _scoreForKill: 10
 --- !u!114 &7550507000033506146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   climbingSpeed: 1
-  fallingSpeed: 10
+  fallingSpeed: 4
 --- !u!54 &231616063546785939
 Rigidbody:
   m_ObjectHideFlags: 0

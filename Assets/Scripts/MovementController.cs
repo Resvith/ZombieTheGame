@@ -3,7 +3,7 @@ using UnityEngine;
 public class MovementController : MonoBehaviour
 {
     public float targetMovingSpeed = 75f;
-    public float targetJumpForce = 250f;
+    public float targetJumpForce = 150f;
     public bool isOnLadder = false;
     public bool isGrounded = true;
     public Transform characterBottom;

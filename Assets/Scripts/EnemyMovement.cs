@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class NavMeshLadder : MonoBehaviour
 {
     [SerializeField] private float climbingSpeed = 1f;
-    [SerializeField] private float fallingSpeed = 10f;
+    [SerializeField] private float fallingSpeed = 8f;
 
     private Player _player;
     private NavMeshAgent _agent;
@@ -40,7 +40,7 @@ public class NavMeshLadder : MonoBehaviour
 
     void TurnToPlayerWhileAttacking()
     {
-        if (_player.transform.position.y - transform.position.y < 1f)
+        if ((_player.transform.position.y - transform.position.y < 0.2f) && (Vector3.Distance(_player.transform.position, transform.position) < 2f))
             transform.LookAt(_player.transform.position);
     }
 }

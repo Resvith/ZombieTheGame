@@ -10,16 +10,18 @@ public class Respawner : MonoBehaviour
 
     private float _nextSpawnTime;
     private int _currentEnemies = 0;
-
+    private float gameTime;
 
     private void Start()
     {
+        gameTime = Time.time;
         _nextSpawnTime = Time.time + _spawnRate;
+        _respawnStartTime += gameTime;
     }
 
     private void Update()
     {
-        if (_respawnStartTime < Time.time && Time.time > _nextSpawnTime && _currentEnemies < _maxEnemies)
+        if (_respawnStartTime <= gameTime && Time.time > _nextSpawnTime && _currentEnemies < _maxEnemies)
         {
             SpawnEnemy();
             _nextSpawnTime = Time.time + _spawnRate; 
