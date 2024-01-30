@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public Transform gunEnd;
     public event Action<Weapon> OnShoot;
     public event Action<Weapon> Reloaded;
+
+    public Transform gunEnd;
+    public AudioClip GunShotClip;
+    public AudioClip ReloadClip;
 
     private Camera fpsCam;
     private LineRenderer laserLine;
@@ -24,7 +27,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private bool isUnlocked;
     [SerializeField] private int unlockingScore;
     [SerializeField] private bool isCollected;
-    private AudioSource gunShot;
+    private AudioSource audioSource;
 
     public string WeaponName { get => weaponName; }
     public int Damage { get => damage; set => damage = value; }
@@ -38,11 +41,11 @@ public class Weapon : MonoBehaviour
     public int UnlockingScore { get => unlockingScore; }
     public bool IsCollected { get => isCollected; set => isCollected = value; }
     public Transform GunEnd { get => gunEnd; set => gunEnd = value; }
-    public AudioSource GunShot { get => gunShot; set => gunShot = value; }
+    public AudioClip GunShot { get => GunShotClip; set => GunShotClip = value; }
     public float NextFire { get => nextFire; set => nextFire = value; }
 
 
-    public Weapon(string weaponName, int damage, float range, float fireRate, int backbackAmmunition, int magazineAmmutnition, int magazineCapacity, float reloadTime, bool isUnlocked, int unlockingScore, bool isCollected, AudioSource gunShot)
+    public Weapon(string weaponName, int damage, float range, float fireRate, int backbackAmmunition, int magazineAmmutnition, int magazineCapacity, float reloadTime, bool isUnlocked, int unlockingScore, bool isCollected, AudioClip gunShot)
     {
         this.weaponName = weaponName;
         Damage = damage;
@@ -73,7 +76,6 @@ public class Weapon : MonoBehaviour
     private void Start()
     {
         laserLine = GetComponent<LineRenderer>();
-        gunShot = GetComponent<AudioSource>();
         fpsCam = GetComponentInParent<Camera>();
         SetRaycastColor(Color.gray);
     }
@@ -111,12 +113,12 @@ public class Weapon : MonoBehaviour
             laserLine.SetPosition(1, rayOrigin + (fpsCam.transform.forward * range));
         }
     }
-
-
    
     private IEnumerator ShotEffect()
     {
-        //gunAudio.Play();
+        audioSource = GetComponentInParent<AudioSource>();
+        audioSource.clip = GunShotClip;
+        audioSource.Play();
 
         laserLine.enabled = true;
         yield return shotDuration;
@@ -128,6 +130,7 @@ public class Weapon : MonoBehaviour
         if (!reloading && backbackAmmunition > 0 && magazineAmmutnition < magazineCapacity)
         {
             reloading = true;
+            ReloadEffect();
             int neededAmmunition = magazineCapacity - magazineAmmutnition;
             int reloadedAmmunition = Math.Min(neededAmmunition, backbackAmmunition);
 
@@ -144,6 +147,12 @@ public class Weapon : MonoBehaviour
         {
             yield break;
         }
+    }
+
+    private void ReloadEffect() {
+        audioSource = GetComponentInParent<AudioSource>();
+        audioSource.clip = ReloadClip;
+        audioSource.Play();
     }
 
 }
