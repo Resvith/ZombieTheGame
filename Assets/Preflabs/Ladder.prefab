@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7496509743536167989}
   - component: {fileID: 2278156641715685289}
   - component: {fileID: 7479352697195227569}
+  - component: {fileID: 5860050396196314671}
   m_Layer: 10
   m_Name: Ladder
   m_TagString: Ladder
@@ -118,3 +119,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a97f5d1fa7a4d449353bcbf0e8a342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5860050396196314671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7520639955474148943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 0.209172, y: 0, z: 0.001204827}
+  m_EndPoint: {x: -0.1700603, y: 3.115338, z: 0.06183557}
+  m_Width: 0
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 0
+  m_Area: 0

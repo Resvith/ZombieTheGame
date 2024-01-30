@@ -1,10 +1,13 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class Respawner : MonoBehaviour
 {
     public GameObject enemy;
-    public float spawnRate = 2f;  
-    public static int maxEnemies = 5;
+
+    [SerializeField] int maxEnemies = 10;
+    [SerializeField] float spawnRate = 2f;  
+    [SerializeField] float respawnStartTime = 0;
 
     private float nextSpawnTime;
     private int currentEnemies = 0;
@@ -16,7 +19,7 @@ public class Respawner : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time > nextSpawnTime && currentEnemies < maxEnemies)
+        if (respawnStartTime < Time.time && Time.time > nextSpawnTime && currentEnemies < maxEnemies)
         {
             SpawnEnemy();
             nextSpawnTime = Time.time + spawnRate; 
