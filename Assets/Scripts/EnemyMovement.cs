@@ -45,6 +45,9 @@ public class NavMeshLadder : MonoBehaviour
 
     void TurnToPlayerWhileAttacking()
     {
-        transform.LookAt(player.transform.position);
+        if (player.transform.position.y - transform.position.y < 1f)
+        {
+            transform.LookAt(player.transform.position);
+        }
     }
 }
