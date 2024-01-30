@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class FirstPersonCameraController : MonoBehaviour
 {
-    [SerializeField]
-    Transform character;
     public float sensitivity = 2;
     public float smoothing = 1.5f;
 
-    Vector2 velocity;
-    Vector2 frameVelocity;
+    [SerializeField] private Transform character;
+
+    private Vector2 _velocity;
+    private Vector2 _frameVelocity;
 
 
     void Reset()
@@ -28,12 +28,12 @@ public class FirstPersonCameraController : MonoBehaviour
         // Get smooth velocity.
         Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
         Vector2 rawFrameVelocity = Vector2.Scale(mouseDelta, Vector2.one * sensitivity);
-        frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
-        velocity += frameVelocity;
-        velocity.y = Mathf.Clamp(velocity.y, -90, 90);
+        _frameVelocity = Vector2.Lerp(_frameVelocity, rawFrameVelocity, 1 / smoothing);
+        _velocity += _frameVelocity;
+        _velocity.y = Mathf.Clamp(_velocity.y, -90, 90);
 
         // Rotate camera up-down and controller left-right from velocity.
-        transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
-        character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
+        transform.localRotation = Quaternion.AngleAxis(-_velocity.y, Vector3.right);
+        character.localRotation = Quaternion.AngleAxis(_velocity.x, Vector3.up);
     }
 }

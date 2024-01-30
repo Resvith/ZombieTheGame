@@ -2,19 +2,23 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
-    Rigidbody rb;
     public float targetMovingSpeed = 75f;
     public float targetJumpForce = 250f;
     public bool isOnLadder = false;
     public bool isGrounded = true;
     public Transform characterBottom;
 
-    [SerializeField] private float climbingSpeed = 90f;
-    [SerializeField] private float groundCheckDistance = 0.1f;
+    [SerializeField] private float _climbingSpeed = 90f;
+    [SerializeField] private float _groundCheckDistance = 0.1f;
+
+    private Rigidbody _rb;
+
+
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
     }
+
     private void Update()
     {
         GroundChecker();
@@ -23,56 +27,50 @@ public class MovementController : MonoBehaviour
     private void GroundChecker()
     {
         RaycastHit hit;
-        if (Physics.Raycast(characterBottom.position, Vector3.down, out hit, groundCheckDistance))
-        {
+        if (Physics.Raycast(characterBottom.position, Vector3.down, out hit, _groundCheckDistance))
             isGrounded = true;
-        }
         else
-        {
             isGrounded = false;
-        }
     }
 
     public void Jump()
     {
-        if(Mathf.Abs(rb.velocity.y) <= 0.05f)
-        {
-            rb.AddForce(Vector3.up * targetJumpForce);
-        }
+        if(Mathf.Abs(_rb.velocity.y) <= 0.05f)
+            _rb.AddForce(Vector3.up * targetJumpForce);
     }
 
     public void Move(Vector2 axises)
     {
         if (!isOnLadder)
         {
-            rb.useGravity = true;
+            _rb.useGravity = true;
             Vector2 targetVelocity = new Vector2(axises[0] * targetMovingSpeed * Time.deltaTime, axises[1] * targetMovingSpeed * Time.deltaTime);
-            rb.velocity = transform.rotation * new Vector3(targetVelocity.x, rb.velocity.y, targetVelocity.y);
+            _rb.velocity = transform.rotation * new Vector3(targetVelocity.x, _rb.velocity.y, targetVelocity.y);
         }
     }
 
     public void ClimbUp()
     {
-        rb.useGravity = false;
-        rb.velocity = Vector3.up * climbingSpeed * Time.deltaTime;
+        _rb.useGravity = false;
+        _rb.velocity = Vector3.up * _climbingSpeed * Time.deltaTime;
     }
 
     public void ClimbDown()
     {
-        rb.useGravity = false;
-        rb.velocity = Vector3.down * climbingSpeed * Time.deltaTime;
+        _rb.useGravity = false;
+        _rb.velocity = Vector3.down * _climbingSpeed * Time.deltaTime;
     }
 
     public void ClimbStop()
     {
         isOnLadder = false;
-        rb.useGravity = true;
+        _rb.useGravity = true;
     }
 
     public void ClimbWait()
     {
-        rb.useGravity = false;
-        rb.velocity = Vector3.zero;
+        _rb.useGravity = false;
+        _rb.velocity = Vector3.zero;
     }
 
 }

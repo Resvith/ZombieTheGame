@@ -1,28 +1,28 @@
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class Respawner : MonoBehaviour
 {
     public GameObject enemy;
 
-    [SerializeField] int maxEnemies = 10;
-    [SerializeField] float spawnRate = 2f;  
-    [SerializeField] float respawnStartTime = 0;
+    [SerializeField] private int _maxEnemies = 10;
+    [SerializeField] private float _spawnRate = 2f;  
+    [SerializeField] private float _respawnStartTime = 0;
 
-    private float nextSpawnTime;
-    private int currentEnemies = 0;
+    private float _nextSpawnTime;
+    private int _currentEnemies = 0;
+
 
     private void Start()
     {
-        nextSpawnTime = Time.time + spawnRate;
+        _nextSpawnTime = Time.time + _spawnRate;
     }
 
     private void Update()
     {
-        if (respawnStartTime < Time.time && Time.time > nextSpawnTime && currentEnemies < maxEnemies)
+        if (_respawnStartTime < Time.time && Time.time > _nextSpawnTime && _currentEnemies < _maxEnemies)
         {
             SpawnEnemy();
-            nextSpawnTime = Time.time + spawnRate; 
+            _nextSpawnTime = Time.time + _spawnRate; 
         }
     }
 
@@ -33,7 +33,7 @@ public class Respawner : MonoBehaviour
         Enemy enemyScript = newEnemy.GetComponent<Enemy>();
         enemyScript.OnEnemyKilled += OnEnemyKilled;
         newEnemy.transform.parent = transform; 
-        currentEnemies++;
+        _currentEnemies++;
     }
 
     private Vector3 GetRandomPoint()
@@ -47,6 +47,6 @@ public class Respawner : MonoBehaviour
 
     public void OnEnemyKilled()
     {
-        currentEnemies--;
+        _currentEnemies--;
     }
 }

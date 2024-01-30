@@ -7,12 +7,14 @@ public class EndGameManager : MonoBehaviour
     public GameObject GameOverPanel;
     public Text FinalScore;
 
-    private Player player;
+    private Player _player;
+
+
     void Start()
     {
         GameOverPanel.SetActive(false);
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        player.OnPlayerDead += EndGame;
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        _player.OnPlayerDead += EndGame;
     }
 
     private void EndGame()
@@ -20,9 +22,9 @@ public class EndGameManager : MonoBehaviour
         print("Game Over");
         GameOverPanel.SetActive(true);
         FinalScore.text = GameObject.FindGameObjectWithTag("Score").GetComponent<Text>().text;
-        InputController inputController = player.GetComponent<InputController>();
-        WeaponController weaponController = player.GetComponentInChildren<WeaponController>();
-        FirstPersonCameraController firstPersonCameraController = player.GetComponentInChildren<FirstPersonCameraController>();
+        InputController inputController = _player.GetComponent<InputController>();
+        WeaponController weaponController = _player.GetComponentInChildren<WeaponController>();
+        FirstPersonCameraController firstPersonCameraController = _player.GetComponentInChildren<FirstPersonCameraController>();
         inputController.enabled = false;
         weaponController.enabled = false;
         firstPersonCameraController.enabled = false;

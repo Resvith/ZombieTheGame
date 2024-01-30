@@ -7,26 +7,21 @@ public class WeaponController : MonoBehaviour
 {
     public event Action<Weapon> OnWeaponChanged;
 
-    public AudioSource pistolShootEfect;
-    public AudioSource shotgunShootEfect;
-    public AudioSource akShootEfect;
-
-    Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
-    private string currentWeaponName;
-    private Weapon currentWeapon;
-    private Transform guns;
-    private InputController inputController;
+    private string _currentWeaponName;
+    private Weapon _currentWeapon;
+    private Transform _guns;
+    private InputController _inputController;
+    private Dictionary<string, Weapon> _weapons = new Dictionary<string, Weapon>();
 
 
     void Start()
     {
-        guns = transform;
-        inputController = GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>();
-        inputController.WeaponChange += OnWeaponChange;
+        _guns = transform;
+        _inputController = GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>();
+        _inputController.WeaponChange += OnWeaponChange;
 
         FindWeaponsAndSaveToDictionary();
         SetGunActive("Pistol");
-
 
         //PrintWeaponInformations();
     }
@@ -35,13 +30,13 @@ public class WeaponController : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            currentWeapon.Shoot();
+            _currentWeapon.Shoot();
         }
 
         else if (Input.GetKeyDown(KeyCode.R))
         {
             print("key R pressed");
-            StartCoroutine(currentWeapon.Reload());
+            StartCoroutine(_currentWeapon.Reload());
         }
     }
 
@@ -52,14 +47,14 @@ public class WeaponController : MonoBehaviour
         foreach(Weapon weapon in weaponsTab)
         {
             print(weapon.name);
-            weapons.Add(weapon.name, weapon);
+            _weapons.Add(weapon.name, weapon);
         }
     }
 
 
     private void SetGunActive(string gunName)
     {
-        foreach (Transform gun in guns)
+        foreach (Transform gun in _guns)
         {
             if (gun.name == gunName)
             {
@@ -76,14 +71,14 @@ public class WeaponController : MonoBehaviour
     public void OnWeaponChange(string weaponName)
     {
         Weapon weapon;
-        if (weapons.TryGetValue(weaponName, out weapon))
+        if (_weapons.TryGetValue(weaponName, out weapon))
         {
             if (weapon.IsUnlocked && weapon.IsCollected)
             {
-                DeactiveWeapon(currentWeaponName);
+                DeactiveWeapon(_currentWeaponName);
                 ActivateWeapon(weaponName);
-                currentWeaponName = weaponName;
-                currentWeapon = weapon;
+                _currentWeaponName = weaponName;
+                _currentWeapon = weapon;
                 print("Changing wepon to: " + weaponName);
                 OnWeaponChanged?.Invoke(weapon);
             }
@@ -96,7 +91,7 @@ public class WeaponController : MonoBehaviour
 
     private void DeactiveWeapon(string name)
     {
-        foreach (Transform gun in guns)
+        foreach (Transform gun in _guns)
         {
             if (gun.name == name)
             {
@@ -107,7 +102,7 @@ public class WeaponController : MonoBehaviour
 
     private void ActivateWeapon(string name)
     {
-        foreach (Transform gun in guns)
+        foreach (Transform gun in _guns)
         {
             if (gun.name == name)
             {
@@ -118,7 +113,7 @@ public class WeaponController : MonoBehaviour
 
     private void PrintWeaponInformations()
     {
-        foreach (var weaponEntry in weapons)
+        foreach (var weaponEntry in _weapons)
         {
             Weapon weapon = weaponEntry.Value;
             Debug.Log(weapon.PrintInformation());

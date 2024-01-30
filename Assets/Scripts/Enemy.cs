@@ -6,40 +6,36 @@ public class Enemy : MonoBehaviour
 {
     public event Action OnEnemyKilled;
 
-    [SerializeField] float attackRange = 1.5f;
-    [SerializeField] int attackDamage = 5;
-    [SerializeField] int enemyHp = 5;
-    [SerializeField] float attackCooldown = 1.5f;
-    [SerializeField] int scoreForKill = 10;
+    [SerializeField] private float _attackRange = 1.5f;
+    [SerializeField] private int _attackDamage = 2;
+    [SerializeField] private int _enemyHp = 5;
+    [SerializeField] private float _attackCooldown = 1.5f;
+    [SerializeField] private int _scoreForKill = 10;
 
-    private Player player;
-    private bool canAttack = true;
-    private Animator animator;
-    private UITextChanger textChanger;
+    private Player _player;
+    private Animator _animator;
+    private UITextChanger _textChanger;
+    private bool _canAttack = true;
 
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        animator = GetComponent<Animator>();
-        textChanger = FindObjectOfType<UITextChanger>();
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        _animator = GetComponent<Animator>();
+        _textChanger = FindObjectOfType<UITextChanger>();
     }
 
     void Update()
     {
-        if (Vector3.Distance(transform.position, player.transform.position) < attackRange && canAttack)
-        {
-            StartCoroutine(AttackPlayer(attackDamage));
-        }
+        if (Vector3.Distance(transform.position, _player.transform.position) < _attackRange && _canAttack)
+            StartCoroutine(AttackPlayer(_attackDamage));
     }
 
     public void TakeDamage(int damageAmount)
     {
-        enemyHp -= damageAmount;
-        if (enemyHp <= 0)
-        {
+        _enemyHp -= damageAmount;
+        if (_enemyHp <= 0)
             EnemyDie();
-        }
     }
 
     public void EnemyDie()
@@ -47,19 +43,19 @@ public class Enemy : MonoBehaviour
         OnEnemyKilled?.Invoke();
         gameObject.SetActive(false);
         Destroy(gameObject, 1f);
-        textChanger.IncreaseScore(scoreForKill);
+        _textChanger.IncreaseScore(_scoreForKill);
     }
 
 
     IEnumerator AttackPlayer(int attackDamage)
     {
-        if (canAttack)
+        if (_canAttack)
         {
-            canAttack = false;
-            player.TakeDamage(attackDamage);
-            animator.SetTrigger("EnemyAttack");
+            _canAttack = false;
+            _player.TakeDamage(attackDamage);
+            _animator.SetTrigger("EnemyAttack");
         }
-        yield return new WaitForSeconds(attackCooldown);
-        canAttack = true;
+        yield return new WaitForSeconds(_attackCooldown);
+        _canAttack = true;
     }
 }

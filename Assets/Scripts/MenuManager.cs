@@ -5,6 +5,8 @@ public class MenuManager : MonoBehaviour
 {
     public GameObject StartPanel;
     public GameObject MenuPanel;
+
+
     void Start()
     {
         MenuPanel.SetActive(false);

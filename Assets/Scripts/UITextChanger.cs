@@ -9,22 +9,22 @@ public class UITextChanger : MonoBehaviour
     public Text magazineAmmunition;
     public Text score;
 
-    private Player player;
-    private WeaponController weaponController;
+    private Player _player;
+    private WeaponController _weaponController;
 
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        player.OnHealthChanged += ChangeHealthText;
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        _player.OnHealthChanged += ChangeHealthText;
 
         WeaponSubscriber();
     }
 
     private void WeaponSubscriber()
     {
-        weaponController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WeaponController>();
-        weaponController.OnWeaponChanged += OnWeaponChange;
+        _weaponController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<WeaponController>();
+        _weaponController.OnWeaponChanged += OnWeaponChange;
 
         // It's needed because OnWeaponChange do not include first selected weapon when game starts
         Weapon[] weapons = GameObject.FindGameObjectWithTag("Player").GetComponentsInChildren<Weapon>();

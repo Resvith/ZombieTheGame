@@ -3,13 +3,13 @@ using UnityEngine;
 public class ShootableBox : MonoBehaviour
 {
     [SerializeField]
-    private int currentHealth = 3;
+    private int _currentHealth = 3;
 
     public void Damage(int damageAmount)
     {
-        currentHealth -= damageAmount;
+        _currentHealth -= damageAmount;
 
-        if (currentHealth <= 0)
+        if (_currentHealth <= 0)
         {
             gameObject.SetActive(false);
         }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FallingDetector : MonoBehaviour
@@ -10,14 +8,10 @@ public class FallingDetector : MonoBehaviour
         {
             Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
             if (player != null)
-            {
                 player.TakeDamage(999);
-            }
         }
 
         else
-        {
             Destroy(other.gameObject);
-        }
     }
 }

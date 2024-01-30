@@ -5,14 +5,16 @@ public class InputController : MonoBehaviour
 {
     public event Action<string> WeaponChange;
 
-    MovementController movementController;
-    private float originalTargetMovingSpeed;
-    private float targetSneakingSpeed;
+    private MovementController _movementController;
+    private float _originalTargetMovingSpeed;
+    private float _targetSneakingSpeed;
+
+
     void Start()
     {
-        movementController = GetComponent<MovementController>();
-        originalTargetMovingSpeed = movementController.targetMovingSpeed;
-        targetSneakingSpeed = originalTargetMovingSpeed / 2;
+        _movementController = GetComponent<MovementController>();
+        _originalTargetMovingSpeed = _movementController.targetMovingSpeed;
+        _targetSneakingSpeed = _originalTargetMovingSpeed / 2;
     }
 
     void FixedUpdate()
@@ -27,63 +29,56 @@ public class InputController : MonoBehaviour
     private void MovementController()
     {
         Vector2 targetVelocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        if (movementController.isOnLadder)
+        if (_movementController.isOnLadder)
         {
             targetVelocity = new Vector2(targetVelocity[0], 0);
         }
-        movementController.Move(targetVelocity);
+        _movementController.Move(targetVelocity);
     }
 
     private void JumpController()
     {
         if (Input.GetKey(KeyCode.Space))
-        {
-            movementController.Jump();
-        }
+            _movementController.Jump();
     }
 
     private void SneakingController()
     {
         if (Input.GetKey(KeyCode.LeftShift))
-        {
-            movementController.targetMovingSpeed = targetSneakingSpeed;
-        }
-
+            _movementController.targetMovingSpeed = _targetSneakingSpeed;
         else
-        {
-            movementController.targetMovingSpeed = originalTargetMovingSpeed;
-        }
+            _movementController.targetMovingSpeed = _originalTargetMovingSpeed;
     }
 
     private void ClimbingController()
     {
-        if (movementController.isOnLadder)
+        if (_movementController.isOnLadder)
         {
             if (Input.GetKey(KeyCode.W))
             {
-                movementController.ClimbUp();
+                _movementController.ClimbUp();
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                if (movementController.isGrounded)
+                if (_movementController.isGrounded)
                 {
-                    movementController.ClimbStop();
+                    _movementController.ClimbStop();
                     Vector2 targetVelocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-                    movementController.Move(targetVelocity);
+                    _movementController.Move(targetVelocity);
                 }
                 else
                 {
-                    movementController.ClimbDown();
+                    _movementController.ClimbDown();
                 }
-                movementController.ClimbDown();
+                _movementController.ClimbDown();
             }
             else if (Input.GetKey(KeyCode.Space))
             {
-                movementController.ClimbStop();
+                _movementController.ClimbStop();
             }
             else
             {
-                movementController.ClimbWait();
+                _movementController.ClimbWait();
             }
         }
     }
